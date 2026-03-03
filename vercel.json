@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/api/analyze/student", "destination": "/api/analyze-student" },
+    { "source": "/api/analyze/hr",      "destination": "/api/analyze-hr"      },
+    { "source": "/api/parse-resume",    "destination": "/api/parse-resume"    }
+  ]
+}

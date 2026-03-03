@@ -1,0 +1,17 @@
+{
+  "name": "resumeiq",
+  "version": "2.0.0",
+  "description": "ResumeIQ — AI Resume Analyzer. Developed by Kethan.",
+  "main": "api/analyze-student.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "busboy": "^1.6.0",
+    "pdf-parse": "^1.1.1"
+  },
+  "engines": {
+    "node": "18.x"
+  }
+}

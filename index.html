@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ResumeIQ — AI Resume Analyzer</title>
+  <meta name="description" content="AI-powered resume analyzer. No APIs. Pure intelligence. Developed by Kethan."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- ===== SPLASH ===== -->
+<div id="splash" class="splash">
+  <div class="splash-bg"></div>
+  <div id="splashParticles" class="splash-particles"></div>
+  <div class="splash-content">
+    <div class="splash-logo">
+      <svg class="logo-svg" width="76" height="76" viewBox="0 0 64 64" fill="none">
+        <rect width="64" height="64" rx="18" fill="url(#splashG)"/>
+        <circle cx="32" cy="18" r="5.5" fill="white" opacity="0.95"/>
+        <circle cx="13" cy="46" r="5.5" fill="white" opacity="0.95"/>
+        <circle cx="51" cy="46" r="5.5" fill="white" opacity="0.95"/>
+        <line x1="32" y1="23.5" x2="13" y2="40.5" stroke="white" stroke-width="2" opacity="0.55"/>
+        <line x1="32" y1="23.5" x2="51" y2="40.5" stroke="white" stroke-width="2" opacity="0.55"/>
+        <line x1="13" y1="46" x2="51" y2="46" stroke="white" stroke-width="2" opacity="0.55"/>
+        <circle cx="32" cy="32" r="3.5" fill="white" opacity="0.3"/>
+        <defs>
+          <linearGradient id="splashG" x1="0" y1="0" x2="64" y2="64">
+            <stop stop-color="#00e5ff"/><stop offset="1" stop-color="#7c3aed"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <h1 class="splash-name">ResumeIQ</h1>
+    </div>
+    <p class="splash-sub" id="splashSub"></p>
+    <p class="splash-credit">Developed by <span class="credit-name">Kethan</span></p>
+    <div class="splash-bar">
+      <div class="splash-progress" id="splashProgress"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== LOADING OVERLAY ===== -->
+<div id="loadingOverlay" class="loading-overlay hidden">
+  <div class="glass loading-box">
+    <div class="loading-spinner"></div>
+    <p class="loading-text" id="loadingText">Analyzing...</p>
+    <p class="loading-sub mono">Pure logic · No AI APIs</p>
+  </div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<div id="app" class="hidden">
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-brand">
+      <svg width="30" height="30" viewBox="0 0 64 64" fill="none">
+        <rect width="64" height="64" rx="14" fill="url(#navG)"/>
+        <circle cx="32" cy="18" r="5.5" fill="white"/>
+        <circle cx="13" cy="46" r="5.5" fill="white"/>
+        <circle cx="51" cy="46" r="5.5" fill="white"/>
+        <line x1="32" y1="23.5" x2="13" y2="40.5" stroke="white" stroke-width="2.5" opacity="0.65"/>
+        <line x1="32" y1="23.5" x2="51" y2="40.5" stroke="white" stroke-width="2.5" opacity="0.65"/>
+        <line x1="13" y1="46" x2="51" y2="46" stroke="white" stroke-width="2.5" opacity="0.65"/>
+        <defs>
+          <linearGradient id="navG" x1="0" y1="0" x2="64" y2="64">
+            <stop stop-color="#00e5ff"/><stop offset="1" stop-color="#7c3aed"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <span class="brand-text">ResumeIQ</span>
+    </div>
+
+    <div class="nav-tabs">
+      <button class="tab-btn active" data-tab="student">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+        </svg>
+        <span>Student</span>
+      </button>
+      <button class="tab-btn" data-tab="hr">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+        </svg>
+        <span>HR Mode</span>
+      </button>
+      <button class="tab-btn" data-tab="templates">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+        </svg>
+        <span>Templates</span>
+      </button>
+    </div>
+
+    <div class="nav-credit mono">No AI APIs · Pure Logic</div>
+  </nav>
+
+  <!-- ==================== STUDENT TAB ==================== -->
+  <div id="tab-student" class="tab-panel active">
+    <div class="panel-hero">
+      <div class="hero-badge">Student Mode</div>
+      <h2>Analyze Your Resume</h2>
+      <p>Upload your resume and enter a job title or full description. Get an instant score, skill match, and actionable improvements.</p>
+    </div>
+
+    <div class="container">
+      <div class="analyzer-grid">
+
+        <!-- Input Panel -->
+        <div class="glass upload-card">
+          <p class="card-title">Upload Resume</p>
+
+          <div class="upload-zone" id="studentUploadZone">
+            <div class="upload-icon">📄</div>
+            <p>Drop PDF here or <strong>click to browse</strong></p>
+            <p class="upload-hint">PDF or plain text · Max 10 MB</p>
+            <input type="file" id="studentFile" accept=".pdf,.txt" hidden/>
+          </div>
+          <div class="file-info hidden" id="studentFileInfo">
+            <span>📎</span>
+            <span class="file-name" id="studentFileName">file.pdf</span>
+            <button class="btn-icon" onclick="
+              document.getElementById('studentFile').value='';
+              document.getElementById('studentFileInfo').classList.add('hidden');
+              document.getElementById('studentUploadZone').classList.remove('has-file');
+              document.getElementById('studentUploadZone').style.borderColor='';
+            ">✕</button>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Job Title or Description</label>
+            <textarea id="studentJD" class="form-textarea" rows="6"
+              placeholder="Just type a role name or paste a full JD&#10;&#10;Examples:&#10;• ml engineer&#10;• fullstack developer&#10;• data scientist&#10;• We are looking for a Python developer with experience in FastAPI, PostgreSQL..."></textarea>
+          </div>
+
+          <button class="btn btn-primary btn-full" id="studentAnalyzeBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+            </svg>
+            Analyze Resume
+          </button>
+        </div>
+
+        <!-- Results Panel -->
+        <div class="glass results-panel" id="studentResults">
+          <div class="results-placeholder" id="studentPlaceholder">
+            <div class="placeholder-icon">🎯</div>
+            <p>Ready to Analyze</p>
+            <p style="font-size:0.84rem">Upload your resume and enter a job title, then click Analyze.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div><!-- /student tab -->
+
+  <!-- ==================== HR TAB ==================== -->
+  <div id="tab-hr" class="tab-panel">
+    <div class="panel-hero hr-hero">
+      <div class="hero-badge hr-badge">HR Mode</div>
+      <h2>Screen Candidates Instantly</h2>
+      <p>Upload a candidate's resume, enter a job title or description, and generate targeted interview questions based on their exact skills.</p>
+    </div>
+
+    <div class="container">
+      <div class="analyzer-grid">
+
+        <!-- Input Panel -->
+        <div class="glass upload-card">
+          <p class="card-title" style="color:var(--hr-c)">Candidate Resume</p>
+
+          <div class="upload-zone" id="hrUploadZone" style="border-color:rgba(248,113,113,0.18);background:rgba(248,113,113,0.02)">
+            <div class="upload-icon">👤</div>
+            <p>Drop resume here or <strong>click to browse</strong></p>
+            <p class="upload-hint">PDF or plain text · Max 10 MB</p>
+            <input type="file" id="hrFile" accept=".pdf,.txt" hidden/>
+          </div>
+          <div class="file-info hidden" id="hrFileInfo">
+            <span>📎</span>
+            <span class="file-name" id="hrFileName">resume.pdf</span>
+            <button class="btn-icon" onclick="
+              document.getElementById('hrFile').value='';
+              document.getElementById('hrFileInfo').classList.add('hidden');
+              document.getElementById('hrUploadZone').classList.remove('has-file');
+            ">✕</button>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Job Title or Description</label>
+            <textarea id="hrJD" class="form-textarea" rows="6"
+              placeholder="Job title or description (optional)&#10;&#10;Examples:&#10;• backend engineer&#10;• devops engineer&#10;• We are hiring a Senior Node.js Engineer with AWS experience..."></textarea>
+          </div>
+
+          <button class="btn btn-hr btn-full" id="hrAnalyzeBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M9 11l3 3L22 4"/>
+              <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+            </svg>
+            Generate Questions
+          </button>
+        </div>
+
+        <!-- Results Panel -->
+        <div class="glass results-panel" id="hrResults">
+          <div class="results-placeholder" id="hrPlaceholder">
+            <div class="placeholder-icon">❓</div>
+            <p>Awaiting Candidate</p>
+            <p style="font-size:0.84rem">Upload a resume to generate smart interview questions and candidate analysis.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div><!-- /hr tab -->
+
+  <!-- ==================== TEMPLATES TAB ==================== -->
+  <div id="tab-templates" class="tab-panel">
+    <div class="panel-hero tmpl-hero">
+      <div class="hero-badge tmpl-badge">IT Company Resume Builder</div>
+      <h2>Branded Resume Generator</h2>
+      <p>Upload your resume once. We extract your data automatically. Then choose any IT company template and download a polished branded PDF.</p>
+    </div>
+
+    <div class="container">
+
+      <!-- STEP 1: Upload -->
+      <div class="tmpl-step-wrap" id="tmplStep1">
+        <div class="tmpl-step-header">
+          <div class="tmpl-step-num">01</div>
+          <div>
+            <h3 class="tmpl-step-title">Upload Your Resume</h3>
+            <p class="tmpl-step-sub">We'll extract your name, email, skills, experience &amp; more automatically</p>
+          </div>
+        </div>
+        <div class="tmpl-upload-area glass" id="tmplUploadZone">
+          <div class="tmpl-upload-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+          </div>
+          <p class="tmpl-upload-title">Drop your resume here or <strong>click to browse</strong></p>
+          <p class="tmpl-upload-hint">PDF or TXT · Max 10 MB</p>
+          <input type="file" id="tmplFile" accept=".pdf,.txt" hidden/>
+        </div>
+        <div class="tmpl-file-info hidden glass" id="tmplFileInfo">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span class="tmpl-file-name" id="tmplFileName"></span>
+          <div class="tmpl-file-actions">
+            <span class="tmpl-file-badge" id="tmplFileBadge">Parsing...</span>
+            <button class="btn-icon" id="tmplFileClear">✕</button>
+          </div>
+        </div>
+
+        <!-- Extracted Data Preview -->
+        <div class="tmpl-extracted hidden glass" id="tmplExtracted">
+          <div class="tmpl-extracted-header">
+            <div class="tmpl-extracted-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Resume data extracted successfully
+            </div>
+            <button class="tmpl-edit-btn" id="tmplEditBtn">✎ Edit</button>
+          </div>
+          <div class="tmpl-extracted-grid" id="tmplExtractedGrid"></div>
+        </div>
+
+        <!-- Edit Panel -->
+        <div class="tmpl-edit-panel hidden glass" id="tmplEditPanel">
+          <div class="tmpl-edit-header">
+            <span>Edit Extracted Data</span>
+            <button class="btn-icon" id="tmplEditClose">✕</button>
+          </div>
+          <div class="tmpl-edit-grid">
+            <div class="form-group"><label class="form-label">Full Name</label><input type="text" id="te_name" class="form-input"/></div>
+            <div class="form-group"><label class="form-label">Title / Role</label><input type="text" id="te_title" class="form-input"/></div>
+            <div class="form-group"><label class="form-label">Email</label><input type="text" id="te_email" class="form-input"/></div>
+            <div class="form-group"><label class="form-label">Phone</label><input type="text" id="te_phone" class="form-input"/></div>
+            <div class="form-group"><label class="form-label">Location</label><input type="text" id="te_location" class="form-input"/></div>
+            <div class="form-group"><label class="form-label">LinkedIn</label><input type="text" id="te_linkedin" class="form-input"/></div>
+            <div class="form-group" style="grid-column:1/-1"><label class="form-label">Summary</label><textarea id="te_summary" class="form-textarea" rows="3"></textarea></div>
+            <div class="form-group" style="grid-column:1/-1"><label class="form-label">Skills (comma separated)</label><input type="text" id="te_skills" class="form-input"/></div>
+            <div class="form-group" style="grid-column:1/-1"><label class="form-label">Experience (one per line: Title | Company | Duration | Description)</label><textarea id="te_experience" class="form-textarea" rows="4"></textarea></div>
+            <div class="form-group" style="grid-column:1/-1"><label class="form-label">Education (one per line: Degree | Institution | Year | GPA)</label><textarea id="te_education" class="form-textarea" rows="3"></textarea></div>
+            <div class="form-group" style="grid-column:1/-1"><label class="form-label">Projects (one per line: Name | Tech | Description)</label><textarea id="te_projects" class="form-textarea" rows="3"></textarea></div>
+            <div class="form-group" style="grid-column:1/-1"><label class="form-label">Certifications (comma separated)</label><input type="text" id="te_certifications" class="form-input"/></div>
+          </div>
+          <button class="btn btn-tmpl" id="tmplSaveEdit" style="margin-top:16px">Save Changes</button>
+        </div>
+      </div>
+
+      <!-- STEP 2: Choose Company -->
+      <div class="tmpl-step-wrap tmpl-step-locked" id="tmplStep2">
+        <div class="tmpl-step-header">
+          <div class="tmpl-step-num">02</div>
+          <div>
+            <h3 class="tmpl-step-title">Choose IT Company Template</h3>
+            <p class="tmpl-step-sub">Each template uses the company's brand identity and layout style</p>
+          </div>
+        </div>
+
+        <!-- Global IT -->
+        <div class="tmpl-company-section">
+          <div class="tmpl-company-label">
+            <span class="tmpl-company-badge global">🌐 Global IT</span>
+          </div>
+          <div class="tmpl-company-grid" id="tmplGlobalGrid"></div>
+        </div>
+
+        <!-- Indian IT -->
+        <div class="tmpl-company-section">
+          <div class="tmpl-company-label">
+            <span class="tmpl-company-badge indian">🇮🇳 Indian IT</span>
+          </div>
+          <div class="tmpl-company-grid" id="tmplIndianGrid"></div>
+        </div>
+      </div>
+
+      <!-- STEP 3: Preview + Download -->
+      <div class="tmpl-step-wrap tmpl-step-locked hidden" id="tmplStep3">
+        <div class="tmpl-step-header">
+          <div class="tmpl-step-num">03</div>
+          <div>
+            <h3 class="tmpl-step-title">Preview &amp; Download</h3>
+            <p class="tmpl-step-sub">Live branded preview — download as PDF instantly</p>
+          </div>
+          <button class="btn btn-tmpl" id="tmplDownloadBtn" style="margin-left:auto;white-space:nowrap">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            Download PDF
+          </button>
+        </div>
+        <div class="tmpl-preview-shell glass" id="tmplPreviewShell">
+          <div id="tmplResumePreview"></div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /templates tab -->
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    ResumeIQ &nbsp;·&nbsp; <span style="color:var(--c1)">No AI APIs</span> &nbsp;·&nbsp;
+    Pure Logic Intelligence &nbsp;·&nbsp; Developed with ❤️ by
+    <span style="background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700">Kethan</span>
+  </footer>
+
+</div><!-- /#app -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="script.js"></script>
+<script src="templates.js"></script>
+</body>
+</html>
